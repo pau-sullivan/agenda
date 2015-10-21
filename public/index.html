@@ -43,7 +43,80 @@
             </ul>-->
             <h4 class="text-muted">Agenda App</h4>
         </div>
-         <form class="form-inline" id="frmContact">
+        <!-- Map and Side Panel -->
+    <div class="row content">
+        <!-- Google Map -->
+        <div class="col-md-7">
+            <div id="map"><img src="holder.js/645x645"></div>
+        </div>
+         <!-- Side Panel -->
+        <div class="col-md-5">
+            <div class="panel panel-default">
+                <!-- Panel Title -->
+                <div class="panel-heading">
+                    <h2 class="panel-title text-center">Contacto <span class="glyphicon glyphicon-map-marker"></span></h2>
+                </div>
+                <!-- Panel Body -->
+                <div class="panel-body">
+                    <!-- Creates Form (novalidate disables HTML validation, Angular will control) -->
+                     <form  name ="addForm" novalidate class="form-inline" id="frmContact">
+                        <div class="form-group">
+                            <label class="sr-only" for="txtName">Nombre</label>
+                            <input type="text" class="form-control" id="txtName" placeholder="Nombre" ng-model="formData.name">
+                        </div>
+                        <div class="form-group">
+                          <label class="sr-only" for="txtLastName">Apellido</label>
+                          <input type="text" class="form-control" id="txtLastName" placeholder="Apellido" ng-model="formData.lastName">
+                        </div>
+                         <div class="form-group">
+                            <label class="sr-only" for="txtLatitude">Lat</label>
+                            <input type="text" class="form-control" id="txtLatitude" placeholder="39.500" value="39.500" ng-model="formData.latitude" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="txtLongitude">Long</label>
+                            <input type="text" class="form-control" id="txtLongitude" placeholder="39.500" value="-98.350" ng-model="formData.longitude" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtVerified">HTML5 Verified Location? <span><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></button></span></label>
+                            <input type="text" class="form-control" id="txtVverified" placeholder= "Nope (Thanks for spamming my map...)" ng-model="formData.htmlverified" readonly>
+                        </div>
+                        <button type="submit" class="btn btn-danger btn-block" ng-disabled="addForm.$invalid">Agregar</button>
+                  </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </br>
+    <div class="jumbotron text-center">
+        <h4>Cantidad de contactos: <span class="label label-info">{{ contacts.length }}</span></h1>
+    </div>
+    <div id="contact-list">
+
+            <div class="row" ng-repeat="contact in contacts">
+                <div class="col-xs-5">
+                    <label>
+                        {{ contact.name }}
+                    </label>
+                </div>
+                <div class="col-xs-5">
+                    <label>
+                        {{ contact.lastName }}
+                    </label>
+                </div>
+                <div class="col-xs-2">
+                    <button type="button" class="btn btn-default btn-sm" ng-click="deleteContact(contact._id)">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+    </div>
+    </br>
+     <!-- Footer -->
+    <div class="footer">
+        <p class="text-center"><span class="glyphicon glyphicon-check"></span> Created by Ahmed Haque for Scotch IO -
+            <a href="https://scotch.io/">App Tutorial</a> | <a href="https://github.com/afhaque/MeanMapAppV2.0">Github Repo</a></p>
+    </div>
+<!--        <form class="form-inline" id="frmContact">
             <div class="form-group">
                 <label class="sr-only" for="txtName">Nombre</label>
                 <input type="text" class="form-control" id="txtName" placeholder="Nombre" ng-model="formData.name">
@@ -76,7 +149,7 @@
                         </button>
                     </div>
                 </div>
-        </div>
+        </div>-->
     </div>
 </body>
 </html>

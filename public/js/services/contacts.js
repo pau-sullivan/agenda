@@ -14,5 +14,5 @@ angular.module('contactService', [])
             delete : function(id) {
                 return $http.delete('/api/contacts/' + id);
             }
-        }
+        };
     });

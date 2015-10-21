@@ -3,10 +3,10 @@ var Contact = require('../models/contact');
 
 // Create endpoint /api/contacts for POSTS
 exports.postContacts = function(req, res) {
-    var contact = new Contact();
+    var contact = new Contact(req.body);
     
-      contact.name = req.body.name;
-      contact.lastName = req.body.lastName;
+      //contact.name = req.body.name;
+      //contact.lastName = req.body.lastName;
       //contact.birthday= req.body.quantity;
       //contact.email = req.body.email;
 
