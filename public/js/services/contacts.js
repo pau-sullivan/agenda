@@ -1,4 +1,3 @@
-// js/services/todos.js
 angular.module('contactService', [])
 
     // super simple service
