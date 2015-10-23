@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  class="no-js" ng-app="agendaApp">
+<html  class ng-app="agendaApp">
         
 <head>
     <!-- META -->
@@ -9,15 +9,15 @@
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css"/>
     <!--<link rel="stylesheet" href="style.css"/>-->
     
-    <!-- Holder JS -->
-    <script src="../bower_components/holderjs/holder.js"></script>
+    <!-- Holder JS 
+    <script src="../bower_components/holderjs/holder.js"></script>-->
     
     <!-- Google Maps API -->
     <script src="https://maps.googleapis.com/maps/api/js?AIzaSyC8WxjZGaliN-Fuj1JkW_xEI7_ZZqZ1m54"></script>
     <!-- Modernizr 
     <script src="../bower_components/modernizr/bin/modernizr"></script>-->
     <!-- JS Source -->
-    <!--<script src="../bower_components/jquery/jquery.js"></script>-->
+    <!--<script src="../bower_components/jquery/dist/jquery.js"></script>-->
     <script src="../bower_components/angular/angular.js"></script>
     <script src="../bower_components/angular-route/angular-route.js"></script>
     <script src="../bower_components/angularjs-geolocation/dist/angularjs-geolocation.min.js"></script>
@@ -38,86 +38,82 @@
 <body ng-controller="contactController">
     <div class="container">
          <div class="header">
-            <!--<ul class="nav nav-pills pull-right">
-                <li active><a href="">Join the Team</a></li>
-                <li disabled><a href="">Find Teammates</a></li>
-            </ul>-->
+            <ul class="nav nav-pills pull-right">
+                <li class="disabled"><a href="">menu 1</a></li>
+                <li class="disabled"><a href="">menu 2</a></li>
+            </ul>
             <h4 class="text-muted">Agenda App</h4>
         </div>
-        <!-- Map and Side Panel -->
-    <div class="row content">
-        <!-- Google Map -->
-        <div class="col-md-7 col-xs-12">
-           
-        </div>
-         <!-- Side Panel -->
-        <div class="col-md-5 col-xs-12">
-            <div class="panel panel-default">
-                <!-- Panel Title -->
-                <div class="panel-heading">
-                    <h2 class="panel-title text-center">Contacto <span class="glyphicon glyphicon-map-marker"></span></h2>
-                </div>
-                <!-- Panel Body -->
-                <div class="panel-body">
-                    <!-- Creates Form (novalidate disables HTML validation, Angular will control) -->
-                     <form  name ="addForm" novalidate id="frmContact">
-                        <div class="form-group">
-                            <label class="sr-only" for="txtName">Nombre</label>
-                            <input type="text" class="form-control" id="txtName" placeholder="Nombre" ng-model="formData.name">
-                        </div>
-                        <div class="form-group">
-                          <label class="sr-only" for="txtLastName">Apellido</label>
-                          <input type="text" class="form-control" id="txtLastName" placeholder="Apellido" ng-model="formData.lastName">
-                        </div>
-                         <div class="form-group">
-                            <label class="sr-only" for="txtLatitude">Lat</label>
-                            <input type="text" class="form-control" id="txtLatitude" placeholder="39.500" value="-34.5987586" ng-model="formData.latitude" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label class="sr-only" for="txtLongitude">Long</label>
-                            <input type="text" class="form-control" id="txtLongitude" placeholder="39.500" value="-58.3855415" ng-model="formData.longitude" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="txtVerified">HTML5 Verified Location? <span><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></button></span></label>
-                            <input type="text" class="form-control" id="txtVverified" placeholder= "Nope (Thanks for spamming my map...)" ng-model="formData.htmlverified" readonly>
-                        </div>
-                         <button type="submit" class="btn btn-danger btn-block" ng-disabled="addForm.$invalid" ng-click="createContact()">Agregar</button>
-                  </form>
+        <div class="row content">
+             
+            <div class="col-md-7 col-xs-12">
+               <div id="map" style="height:430px;"></div>
+            </div>
+            <div class="col-md-5 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title text-center">Contacto <span class="glyphicon glyphicon-map-marker"></span></h2>
+                    </div>
+                    <div class="panel-body">
+<!--                         Creates Form (novalidate disables HTML validation, Angular will control) -->
+                         <form  name ="addForm" novalidate id="frmContact">
+                            <div class="form-group">
+                                <label class="sr-only" for="txtName">Nombre</label>
+                                <input type="text" class="form-control" id="txtName" placeholder="Nombre" ng-model="formData.name">
+                            </div>
+                            <div class="form-group">
+                              <label class="sr-only" for="txtLastName">Apellido</label>
+                              <input type="text" class="form-control" id="txtLastName" placeholder="Apellido" ng-model="formData.lastName">
+                            </div>
+                             <div class="form-group">
+                                <label class="sr-only" for="txtLatitude">Lat</label>
+                                <input type="text" class="form-control" id="txtLatitude" placeholder="39.500" value="-34.5987586" ng-model="formData.latitude" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="txtLongitude">Long</label>
+                                <input type="text" class="form-control" id="txtLongitude" placeholder="39.500" value="-58.3855415" ng-model="formData.longitude" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtVerified">HTML5 Verified Location? <span><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></button></span></label>
+                                <input type="text" class="form-control" id="txtVverified" placeholder= "Nope (Thanks for spamming my map...)" ng-model="formData.htmlverified" readonly>
+                            </div>
+                             <button type="submit" class="btn btn-danger btn-block" ng-disabled="addForm.$invalid" ng-click="createContact()">Agregar</button>
+                      </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    </br>
+        </br>
     <div class="jumbotron text-center">
-        <h4>Cantidad de contactos: <span class="label label-info">{{ contacts.length }}</span></h1>
-    </div>
-    <div id="contact-list">
+            <h4>Cantidad de contactos: <span class="label label-info">{{ contacts.length }}</span></h1>
+        </div>
+        <div id="contact-list">
 
-            <div class="row" ng-repeat="contact in contacts">
-                <div class="col-xs-3">
-                    <label>
-                        {{ contact.name }}
-                    </label>
+                <div class="row" ng-repeat="contact in contacts">
+                    <div class="col-xs-3">
+                        <label>
+                            {{ contact.name }}
+                        </label>
+                    </div>
+                    <div class="col-xs-3">
+                        <label>
+                            {{ contact.lastName }}
+                        </label>
+                    </div>
+                    <div class="col-xs-3">
+                        <label>
+                           {{ contact.location[1] | number:2}},{{contact.location[0]| number:2}}
+                        </label>
+                    </div>
+                    <div class="col-xs-3">
+                        <button type="button" class="btn btn-default btn-sm pull-cetnter" ng-click="deleteContact(contact._id)">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
+                    </div>
                 </div>
-                <div class="col-xs-3">
-                    <label>
-                        {{ contact.lastName }}
-                    </label>
-                </div>
-                <div class="col-xs-3">
-                    <label>
-                       {{ contact.location[1] | number:2}},{{contact.location[0]| number:2}}
-                    </label>
-                </div>
-                <div class="col-xs-3">
-                    <button type="button" class="btn btn-default btn-sm pull-cetnter" ng-click="deleteContact(contact._id)">
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                    </button>
-                </div>
-            </div>
-    </div>
-    </br>
-     <!-- Footer -->
+        </div>
+        </br>
+
     <div class="footer">
         <p class="text-center"><span class="glyphicon glyphicon-check"></span> Created by Ahmed Haque for Scotch IO -
             <a href="https://scotch.io/">App Tutorial</a> | <a href="https://github.com/afhaque/MeanMapAppV2.0">Github Repo</a></p>
@@ -157,6 +153,5 @@
                 </div>
         </div>-->
     </div>
-     <div id="map"></div>
 </body>
 </html>
