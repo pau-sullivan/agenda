@@ -2,6 +2,10 @@
 angular.module('contactController',['gservice'])
         .controller('contactController',function($scope, $rootScope, Contacts, geolocation, gservice) {
             $scope.formData = {};
+    
+            $scope.sortType     = 'name';
+            $scope.sortReverse  = false;
+            $scope.searchContact   = '';
 
             //$http.get('/api/contacts')
             Contacts.get()
@@ -75,12 +79,14 @@ angular.module('contactController',['gservice'])
             // Get coordinates based on mouse click. When a click event is detected....
             $rootScope.$on("clicked", function(){
 
-                // Run the gservice functions associated with identifying coordinates
-                $scope.$apply(function(){
-                    $scope.formData.latitude = parseFloat(gservice.clickLat).toFixed(3);
-                    $scope.formData.longitude = parseFloat(gservice.clickLong).toFixed(3);
-                    $scope.formData.htmlverified = "Nope (Thanks for spamming my map...)";
-                });
+                if(!$rootScope.$$phase) {
+                    // Run the gservice functions associated with identifying coordinates
+                    $scope.$apply(function(){
+                        $scope.formData.latitude = parseFloat(gservice.clickLat).toFixed(3);
+                        $scope.formData.longitude = parseFloat(gservice.clickLong).toFixed(3);
+                        $scope.formData.htmlverified = "Nope (Thanks for spamming my map...)";
+                    });
+                }
             });
 
 });

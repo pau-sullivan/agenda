@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"/>
     <!--<link rel="stylesheet" href="style.css"/>-->
     
     <!-- Holder JS 
@@ -31,7 +32,6 @@
     <style>
         html                    { overflow-y:scroll; }
         body                    { padding-top:50px; }
-        #contact-list           { margin-top:30px; }
         #frmContact             { margin-bottom:30px; }
     </style>
 </head>
@@ -84,34 +84,55 @@
             </div>
         </div>
         </br>
-    <div class="jumbotron text-center">
-            <h4>Cantidad de contactos: <span class="label label-info">{{ contacts.length }}</span></h1>
+<!--        <div class="jumbotron text-center">
+        </div>-->
+        <div class="alert alert-info">
+            <h4 class="text-center">Cantidad de contactos: <span class="label label-info">{{ contacts.length }}</span></h4>
+            <p>Buscar por: {{ sortType }}</p>
+            <p>Orden Desc: {{ sortReverse }}</p>
+            <p>Buscado: {{ searchContact }}</p>
         </div>
-        <div id="contact-list">
-
-                <div class="row" ng-repeat="contact in contacts">
-                    <div class="col-xs-3">
-                        <label>
-                            {{ contact.name }}
-                        </label>
-                    </div>
-                    <div class="col-xs-3">
-                        <label>
-                            {{ contact.lastName }}
-                        </label>
-                    </div>
-                    <div class="col-xs-3">
-                        <label>
-                           {{ contact.location[1] | number:2}},{{contact.location[0]| number:2}}
-                        </label>
-                    </div>
-                    <div class="col-xs-3">
+         <form>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                    <input type="text" class="form-control" placeholder="Buscar contacto" ng-model="searchContact">
+              </div>      
+            </div>
+        </form>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td><a href="#" ng-click="sortType ='name'; sortReverse = !sortReverse">
+                        Nombre
+                        <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                    <td><a href="#" ng-click="sortType='lastName'; sortReverse = !sortReverse">
+                        Apellido
+                        <span ng-show="sortType == 'lastName' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'lastName' && sortReverse" class="fa fa-caret-up"></span>
+                    </td>
+                    <td>Latitud</td>
+                    <td>Longitud</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="contact in contacts | orderBy:sortType:sortReverse | filter:searchContact">
+                    <td>{{ contact.name }}</td>
+                    <td>{{ contact.lastName }}</td>
+                    <td>{{ contact.location[1] | number:2}}</td>
+                    <td>{{ contact.location[0]| number:2}}</td>
+                    <td>
                         <button type="button" class="btn btn-default btn-sm pull-cetnter" ng-click="deleteContact(contact._id)">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                         </button>
-                    </div>
-                </div>
-        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
         </br>
 
     <div class="footer">

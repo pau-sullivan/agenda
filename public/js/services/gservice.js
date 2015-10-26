@@ -19,10 +19,12 @@ angular.module('gservice', [])
         // --------------------------------------------------------------
         // Refresh the Map with new data. Function will take new latitude and longitude coordinates.
         googleMapService.refresh = function(contacts){
-            //var latitude = -34.5987586;
-            //var longitude = -58.3855415;
-            if(!map)
+            var latitude = -34.5987586;
+            var longitude = -58.3855415;
+            
+            if(!map){
                 initialize(latitude, longitude);
+            }
             
             
             deleteMarkers();
@@ -83,7 +85,6 @@ angular.module('gservice', [])
 
         // Initializes the map
         var initialize = function(latitude, longitude) {
-              
             var mapOptions = {
               mapTypeControl: true,
               mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -104,10 +105,6 @@ angular.module('gservice', [])
         };
         
         var setLocation = function(latitude,longitude){
-            
-            if(!map)
-                initialize(latitude,longitude);
-            
            var location = new google.maps.LatLng(latitude, longitude);
                    
            var marker = new google.maps.Marker({
