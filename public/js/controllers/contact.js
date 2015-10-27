@@ -1,6 +1,6 @@
 
 angular.module('contactController',['gservice'])
-        .controller('contactController',function($scope, $rootScope, Contacts, geolocation, gservice) {
+        .controller('contactController',function($scope, $rootScope, Contacts, geolocation, gservice, $uibModal) {
             $scope.formData = {};
     
             $scope.sortType     = 'name';
@@ -88,5 +88,29 @@ angular.module('contactController',['gservice'])
                     });
                 }
             });
-
+            
+            $scope.open = function (contact) {
+                var modalInstance = $uibModal.open({
+                  animation: $scope.animationsEnabled,
+                  templateUrl: 'js/templates/contact.html',
+                  controller: 'modalContactController',
+                  size: 'lg',
+                  resolve: {
+                    contact: function () {
+                      return contact;
+                    }
+                  }
+                });
+                
+                modalInstance.result.then(
+                    function () {
+                        //$scope.selected = selectedItem;
+                        alert('entro');
+                    }, 
+                    function () {
+                        //$log.info('Modal dismissed at: ' + new Date());
+                    }
+                );
+            };
+            
 });

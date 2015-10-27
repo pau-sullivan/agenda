@@ -86,6 +86,7 @@ angular.module('gservice', [])
         // Initializes the map
         var initialize = function(latitude, longitude) {
             var mapOptions = {
+              scrollwheel: false,
               mapTypeControl: true,
               mapTypeId: google.maps.MapTypeId.ROADMAP,
               center:new google.maps.LatLng(latitude,longitude),

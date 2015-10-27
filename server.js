@@ -15,6 +15,7 @@ var router = express.Router();
 
 app.use(express.static(__dirname + './public'));
 app.use('/bower_components',  express.static(__dirname + '/bower_components')); // Use BowerComponents
+app.use('/node_modules',  express.static(__dirname + '/node_modules')); // Use NodeModules
 app.use(morgan('dev')); // log every request to the console
  
 
