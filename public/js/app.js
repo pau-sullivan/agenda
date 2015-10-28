@@ -1,5 +1,5 @@
 
 //var agendaApp = angular.module('agendaApp', []);
-angular.module('agendaApp', ['contactController', 'contactService','geolocation','gservice','ui.bootstrap']);
+angular.module('agendaApp', ['contactController', 'contactService','geolocation','gservice','ui.bootstrap','modalService']);
 
 

@@ -1,6 +1,6 @@
 
 angular.module('contactController',['gservice'])
-        .controller('contactController',function($scope, $rootScope, Contacts, geolocation, gservice, $uibModal) {
+        .controller('contactController',function($scope, $rootScope, Contacts, geolocation, gservice, modalService) {
             $scope.formData = {};
     
             $scope.sortType     = 'name';
@@ -89,28 +89,46 @@ angular.module('contactController',['gservice'])
                 }
             });
             
-            $scope.open = function (contact) {
-                var modalInstance = $uibModal.open({
-                  animation: $scope.animationsEnabled,
-                  templateUrl: 'js/templates/contact.html',
-                  controller: 'modalContactController',
-                  size: 'lg',
-                  resolve: {
-                    contact: function () {
-                      return contact;
-                    }
-                  }
-                });
-                
-                modalInstance.result.then(
-                    function () {
-                        //$scope.selected = selectedItem;
-                        alert('entro');
-                    }, 
-                    function () {
-                        //$log.info('Modal dismissed at: ' + new Date());
-                    }
-                );
+//            $scope.open = function (contact) {
+//                var modalInstance = $uibModal.open({
+//                  animation: $scope.animationsEnabled,
+//                  templateUrl: 'js/templates/modalContact.html',//'js/templates/contact.html',
+//                  controller: 'modalContactController',
+//                  size: 'lg',
+//                  resolve: {
+//                    contact: function () {
+//                      return contact;
+//                    }
+//                  }
+//                });
+//                
+//                modalInstance.result.then(
+//                    function () {
+//                        //$scope.selected = selectedItem;
+//                        alert('entro');
+//                    }, 
+//                    function () {
+//                        //$log.info('Modal dismissed at: ' + new Date());
+//                    }
+//                );
+//            };
+
+            $scope.open = function(contact){
+                  
+                var modalOptions = {
+                    closeButtonText: 'Cancel',
+                    actionButtonText: 'OK',
+                    headerText: 'Contacto ' + contact.name,
+                    bodyText: 'Last Name' + contact.lastName
+                };
+
+                modalService.showModal({}, modalOptions)
+                        .then(function (result) {
+        //                dataService.deleteCustomer($scope.customer.id).then(function () {
+        //                $location.path('/customers');
+                            alert(result);
+                        }, 
+                        function(){alert('error');});
             };
             
 });
