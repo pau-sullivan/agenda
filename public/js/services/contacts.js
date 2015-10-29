@@ -1,4 +1,7 @@
-angular.module('contactService', [])
+
+(function(){
+    'use strict';
+    angular.module('contactService', [])
 
     // super simple service
     // each function returns a promise object 
@@ -15,3 +18,5 @@ angular.module('contactService', [])
             }
         };
     });
+})();
+

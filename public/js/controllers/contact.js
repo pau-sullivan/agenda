@@ -1,94 +1,105 @@
-
-angular.module('contactController',['gservice'])
-        .controller('contactController',function($scope, $rootScope, Contacts, geolocation, gservice, modalService) {
-            $scope.formData = {};
+(function(){
+    'use strict';
     
-            $scope.sortType     = 'name';
-            $scope.sortReverse  = false;
-            $scope.searchContact   = '';
-
-            //$http.get('/api/contacts')
-            Contacts.get()
-                .success(function(data) {
-                    $scope.contacts = data;
-                    gservice.refresh(data);
-                    //console.log(data);
-                })  
-                .error(function(data) {
-                    console.log('Error: ' + data);
-                });
-
-            $scope.formData.latitude = -34.5987586;
-            $scope.formData.longitude = -58.3855415;
+    angular
+        .module('ContactController',['gservice'])
+        .controller('ContactController',ContactController);
+    
+    ContactController.$inject =['$scope','$rootScope', 'Contacts', 'geolocation', 'gservice', 'modalService'];
+    function ContactController($scope,$rootScope, Contacts, geolocation, gservice, modalService) {
+        
+        /* jshint validthis: true */
+        var vm = this;
+        vm.formData = {};
+        vm.formData.latitude = -34.5987586;
+        vm.formData.longitude = -58.3855415;
+        vm.sortType     = 'name';
+        vm.sortReverse  = false;
+        vm.searchContact   = '';
+        
+        Contacts.get()
+            .success(function(data) {
+                vm.contacts = data;
+                gservice.refresh(data);
+            })  
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
             
             // Get User's actual coordinates based on HTML5 at window load
-            geolocation.getLocation().then(function(data){
-
+        geolocation.getLocation().then(function(data){
+            if(data.coords.latitude && data.coords.longitude)
+            {
                 // Set the latitude and longitude equal to the HTML5 coordinates
-                coords = {lat:data.coords.latitude, long:data.coords.longitude};
+                var coords = {lat:data.coords.latitude, long:data.coords.longitude};
 
                 // Display coordinates in location textboxes rounded to three decimal points
-                $scope.formData.longitude = parseFloat(coords.long).toFixed(3);
-                $scope.formData.latitude = parseFloat(coords.lat).toFixed(3);
+                vm.formData.longitude = parseFloat(coords.long).toFixed(3);
+                vm.formData.latitude = parseFloat(coords.lat).toFixed(3);
 
                 // Display message confirming that the coordinates verified.
-                $scope.formData.htmlverified = "Yep (Thanks for giving us real data!)";
+                vm.formData.htmlverified = "Yep (Thanks for giving us real data!)";
 
-                gservice.setLocation($scope.formData.latitude, $scope.formData.longitude);
-
-            });
+                gservice.setLocation(vm.formData.latitude, vm.formData.longitude);
+            }
+        });
                 
-
-            // when submitting the add form, send the text to the node API
-            $scope.createContact = function() {
-                var contactData={
-                  name : $scope.formData.name,
-                  lastName : $scope.formData.lastName,
-                  location :[$scope.formData.longitude, $scope.formData.latitude],
-                  htmlverified : $scope.formData.htmlverified
-                };
-
-                Contacts.create(contactData)
-                    .success(function(data){
-                        $scope.formData.name = "";
-                        $scope.formData.lastName="";
-                        $scope.contacts = data;
-                        gservice.refresh(data);
-                    });
-                    
+        vm.createContact = function() {
+            var contactData={
+              name : vm.formData.name,
+              lastName : vm.formData.lastName,
+              location :[vm.formData.longitude, vm.formData.latitude],
+              htmlverified : vm.formData.htmlverified
             };
 
-            // delete a todo after checking it
-            $scope.deleteContact = function(id) {
-//                $http.delete('/api/contacts/' + id)
-//                    .success(function(data) {
-//                        $scope.contacts = data;
-//                        console.log(data);
-//                    })
-//                    .error(function(data) {
-//                        console.log('Error: ' + data);
-//                    });
-                    Contacts.delete(id)
-                            .success(function(data){
-                                $scope.contacts = data;
-                                gservice.refresh(data);
-                            });
-            };
+            Contacts.create(contactData)
+                .success(function(data){
+                    vm.formData.name = "";
+                    vm.formData.lastName="";
+                    vm.contacts = data;
+                    gservice.refresh(data);
+                });
+        };
+
+        vm.deleteContact = function(id) {
+            Contacts.delete(id)
+                .success(function(data){
+                    vm.contacts = data;
+                    gservice.refresh(data);
+                });
+        };
     
-            
-            // Get coordinates based on mouse click. When a click event is detected....
-            $rootScope.$on("clicked", function(){
+        // Get coordinates based on mouse click. When a click event is detected....
+        $rootScope.$on("clicked", function(){
 
-                if(!$rootScope.$$phase) {
-                    // Run the gservice functions associated with identifying coordinates
-                    $scope.$apply(function(){
-                        $scope.formData.latitude = parseFloat(gservice.clickLat).toFixed(3);
-                        $scope.formData.longitude = parseFloat(gservice.clickLong).toFixed(3);
-                        $scope.formData.htmlverified = "Nope (Thanks for spamming my map...)";
-                    });
-                }
-            });
+            if(!$rootScope.$$phase) {
+                // Run the gservice functions associated with identifying coordinates
+                $scope.$apply(function(){
+                    vm.formData.latitude = parseFloat(gservice.clickLat).toFixed(3);
+                    vm.formData.longitude = parseFloat(gservice.clickLong).toFixed(3);
+                    vm.formData.htmlverified = "Nope (Thanks for spamming my map...)";
+                });
+            }
+        });
             
+        vm.open = function(contact){          
+            var modalOptions = {
+                closeButtonText: 'Cancel',
+                actionButtonText: 'OK',
+                headerText: 'Contacto ' + contact.name,
+                bodyText: 'Last Name' + contact.lastName
+            };
+
+            modalService.showModal({}, modalOptions)
+                .then(function (result) {
+                    alert(result);
+                    }, 
+                    function(){alert('error');}
+                );
+        };    
+    }    
+})();
+
 //            $scope.open = function (contact) {
 //                var modalInstance = $uibModal.open({
 //                  animation: $scope.animationsEnabled,
@@ -112,23 +123,3 @@ angular.module('contactController',['gservice'])
 //                    }
 //                );
 //            };
-
-            $scope.open = function(contact){
-                  
-                var modalOptions = {
-                    closeButtonText: 'Cancel',
-                    actionButtonText: 'OK',
-                    headerText: 'Contacto ' + contact.name,
-                    bodyText: 'Last Name' + contact.lastName
-                };
-
-                modalService.showModal({}, modalOptions)
-                        .then(function (result) {
-        //                dataService.deleteCustomer($scope.customer.id).then(function () {
-        //                $location.path('/customers');
-                            alert(result);
-                        }, 
-                        function(){alert('error');});
-            };
-            
-});

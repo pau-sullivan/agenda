@@ -1,0 +1,24 @@
+<!--                         Creates Form (novalidate disables HTML validation, Angular will control) -->
+ <form  name ="addForm" novalidate id="frmContact">
+    <div class="form-group">
+        <label class="sr-only" for="txtName">Nombre</label>
+        <input type="text" class="form-control" id="txtName" placeholder="Nombre" ng-model="formData.name">
+    </div>
+    <div class="form-group">
+      <label class="sr-only" for="txtLastName">Apellido</label>
+      <input type="text" class="form-control" id="txtLastName" placeholder="Apellido" ng-model="formData.lastName">
+    </div>
+     <div class="form-group">
+        <label class="sr-only" for="txtLatitude">Lat</label>
+        <input type="text" class="form-control" id="txtLatitude" placeholder="39.500" value="-34.5987586" ng-model="formData.latitude" readonly>
+    </div>
+    <div class="form-group">
+        <label class="sr-only" for="txtLongitude">Long</label>
+        <input type="text" class="form-control" id="txtLongitude" placeholder="39.500" value="-58.3855415" ng-model="formData.longitude" readonly>
+    </div>
+    <div class="form-group">
+        <label for="txtVerified">HTML5 Verified Location? <span><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></button></span></label>
+        <input type="text" class="form-control" id="txtVverified" placeholder= "Nope (Thanks for spamming my map...)" ng-model="formData.htmlverified" readonly>
+    </div>
+     <button type="submit" class="btn btn-danger btn-block" ng-disabled="addForm.$invalid" ng-click="createContact()">Agregar</button>
+</form>

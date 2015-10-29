@@ -1,5 +1,9 @@
+angular
+        .module('agendaApp', ['ContactController', 'contactService','geolocation','gservice','ui.bootstrap','modalService'])
+        .run(anchorScroll);
 
-//var agendaApp = angular.module('agendaApp', []);
-angular.module('agendaApp', ['contactController', 'contactService','geolocation','gservice','ui.bootstrap','modalService']);
+anchorScroll.$inject =['$anchorScroll'];
 
-
+ function anchorScroll($anchorScroll) {
+            $anchorScroll = angular.noop;
+}

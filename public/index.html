@@ -30,6 +30,7 @@
     <script src="js/services/contacts.js"></script>
     <script src="js/services/gservice.js"></script>
     <script src="js/services/modal.js"></script>
+<!--    <script src="js/directives/contact.js"></script>-->
     
     <title>Node/Angular AgendaApp</title>
     <style>
@@ -38,7 +39,7 @@
         #frmContact             { margin-bottom:30px; }
     </style>
 </head>
-<body ng-controller="contactController">
+<body ng-controller="ContactController as contact">
     <div class="container">
          <div class="header">
             <ul class="nav nav-pills pull-right">
@@ -58,64 +59,63 @@
                         <h2 class="panel-title text-center">Contacto <span class="glyphicon glyphicon-map-marker"></span></h2>
                     </div>
                     <div class="panel-body">
-<!--                         Creates Form (novalidate disables HTML validation, Angular will control) -->
-                         <form  name ="addForm" novalidate id="frmContact">
+                        <!--<contact-info formData="contact.formData"></contact-info>-->
+                        <form  name ="addForm" novalidate id="frmContact">
+                           <div class="form-group">
+                               <label class="sr-only" for="txtName">Nombre</label>
+                               <input type="text" class="form-control" id="txtName" placeholder="Nombre" ng-model="contact.formData.name">
+                           </div>
+                           <div class="form-group">
+                             <label class="sr-only" for="txtLastName">Apellido</label>
+                             <input type="text" class="form-control" id="txtLastName" placeholder="Apellido" ng-model="contact.formData.lastName">
+                           </div>
                             <div class="form-group">
-                                <label class="sr-only" for="txtName">Nombre</label>
-                                <input type="text" class="form-control" id="txtName" placeholder="Nombre" ng-model="formData.name">
-                            </div>
-                            <div class="form-group">
-                              <label class="sr-only" for="txtLastName">Apellido</label>
-                              <input type="text" class="form-control" id="txtLastName" placeholder="Apellido" ng-model="formData.lastName">
-                            </div>
-                             <div class="form-group">
-                                <label class="sr-only" for="txtLatitude">Lat</label>
-                                <input type="text" class="form-control" id="txtLatitude" placeholder="39.500" value="-34.5987586" ng-model="formData.latitude" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label class="sr-only" for="txtLongitude">Long</label>
-                                <input type="text" class="form-control" id="txtLongitude" placeholder="39.500" value="-58.3855415" ng-model="formData.longitude" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="txtVerified">HTML5 Verified Location? <span><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></button></span></label>
-                                <input type="text" class="form-control" id="txtVverified" placeholder= "Nope (Thanks for spamming my map...)" ng-model="formData.htmlverified" readonly>
-                            </div>
-                             <button type="submit" class="btn btn-danger btn-block" ng-disabled="addForm.$invalid" ng-click="createContact()">Agregar</button>
-                      </form>
+                               <label class="sr-only" for="txtLatitude">Lat</label>
+                               <input type="text" class="form-control" id="txtLatitude" placeholder="39.500" value="-34.5987586" ng-model="contact.formData.latitude" readonly>
+                           </div>
+                           <div class="form-group">
+                               <label class="sr-only" for="txtLongitude">Long</label>
+                               <input type="text" class="form-control" id="txtLongitude" placeholder="39.500" value="-58.3855415" ng-model="contact.formData.longitude" readonly>
+                           </div>
+                           <div class="form-group">
+                               <label for="txtVerified">HTML5 Verified Location? <span><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></button></span></label>
+                               <input type="text" class="form-control" id="txtVverified" placeholder= "Nope (Thanks for spamming my map...)" ng-model="contact.formData.htmlverified" readonly>
+                           </div>
+                            <button type="submit" class="btn btn-danger btn-block" ng-disabled="addForm.$invalid" ng-click="contact.createContact()">Agregar</button>
+                       </form>
                     </div>
                 </div>
             </div>
         </div>
         </br>
-<!--        <div class="jumbotron text-center">
-        </div>-->
         <div class="alert alert-info">
-            <h4 class="text-center">Cantidad de contactos: <span class="label label-info">{{ contacts.length }}</span></h4>
-            <p>Buscar por: {{ sortType }}</p>
-            <p>Orden Desc: {{ sortReverse }}</p>
-            <p>Buscado: {{ searchContact }}</p>
+            <h4 class="text-center">Cantidad de contactos: <span class="label label-info">{{ contact.contacts.length }}</span></h4>
+            <p>Ordenar por: {{ contact.sortType }}</p>
+            <p>Orden Desc: {{ contact.sortReverse }}</p>
+            <p>Buscado: {{ contact.searchContact }}</p>
         </div>
         <form>
             <div class="form-group">
               <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                    <input type="text" class="form-control" placeholder="Buscar contacto" ng-model="searchContact">
+                    <input type="text" class="form-control" placeholder="Buscar contacto" ng-model="contact.searchContact">
               </div>      
             </div>
         </form>
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <td><a href="#" ng-click="sortType ='name'; sortReverse = !sortReverse">
+                    <td><a href="#" ng-click="contact.sortType ='name'; contact.sortReverse = !contact.sortReverse">
                         Nombre
-                        <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
-                        <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+                        <span ng-show="contact.sortType == 'name' && !contact.sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="contact.sortType == 'name' && contact.sortReverse" class="fa fa-caret-up"></span>
                         </a>
                     </td>
-                    <td><a href="#" ng-click="sortType='lastName'; sortReverse = !sortReverse">
+                    <td><a href="#" ng-click="contact.sortType='lastName'; contact.sortReverse = !contact.sortReverse">
                         Apellido
-                        <span ng-show="sortType == 'lastName' && !sortReverse" class="fa fa-caret-down"></span>
-                        <span ng-show="sortType == 'lastName' && sortReverse" class="fa fa-caret-up"></span>
+                        <span ng-show="contact.sortType == 'lastName' && !contact.sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="contact.sortType == 'lastName' && contact.sortReverse" class="fa fa-caret-up"></span>
+                        </a>
                     </td>
                     <td>Latitud</td>
                     <td>Longitud</td>
@@ -123,16 +123,16 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="contact in contacts | orderBy:sortType:sortReverse | filter:searchContact">
-                    <td>{{ contact.name }}</td>
-                    <td>{{ contact.lastName }}</td>
-                    <td>{{ contact.location[1] | number:2}}</td>
-                    <td>{{ contact.location[0]| number:2}}</td>
+                <tr ng-repeat="c in contact.contacts | orderBy:contact.sortType:contact.sortReverse | filter:contact.searchContact">
+                    <td>{{ c.name }}</td>
+                    <td>{{ c.lastName }}</td>
+                    <td>{{ c.location[1] | number:2}}</td>
+                    <td>{{ c.location[0] | number:2}}</td>
                     <td>
-                        <button type="button" class="btn btn-default btn-sm pull-cetnter" ng-click="deleteContact(contact._id)">
+                        <button type="button" class="btn btn-default btn-sm pull-cetnter" ng-click="contact.deleteContact(c._id)">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                         </button>
-                        <button type="button" class="btn btn-default btn-sm pull-cetnter" ng-click="open(contact)">
+                        <button type="button" class="btn btn-default btn-sm pull-cetnter" ng-click="contact.open(c)">
                             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                         </button>
                     </td>
@@ -144,41 +144,6 @@
             <p class="text-center"><span class="glyphicon glyphicon-check"></span> Created by Ahmed Haque for Scotch IO -
                 <a href="https://scotch.io/">App Tutorial</a> | <a href="https://github.com/afhaque/MeanMapAppV2.0">Github Repo</a></p>
         </div>
-       
-<!--        <form class="form-inline" id="frmContact">
-            <div class="form-group">
-                <label class="sr-only" for="txtName">Nombre</label>
-                <input type="text" class="form-control" id="txtName" placeholder="Nombre" ng-model="formData.name">
-            </div>
-            <div class="form-group">
-              <label class="sr-only" for="txtLastName">Apellido</label>
-              <input type="text" class="form-control" id="txtLastName" placeholder="Apellido" ng-model="formData.lastName">
-            </div>
-            <button type="submit" class="btn btn-md btn-primary"  ng-disabled="!formData.name.length || !formData.lastName.length || buttonDisabled" ng-click="createContact()">Agregar</button>
-      </form>
-        <div class="jumbotron text-center">
-            <h4>Cantidad de contactos: <span class="label label-info">{{ contacts.length }}</span></h1>
-        </div>
-        <div id="contact-list">
-
-                <div class="row" ng-repeat="contact in contacts">
-                    <div class="col-xs-5">
-                        <label>
-                            {{ contact.name }}
-                        </label>
-                    </div>
-                    <div class="col-xs-5">
-                        <label>
-                            {{ contact.lastName }}
-                        </label>
-                    </div>
-                    <div class="col-xs-2">
-                        <button type="button" class="btn btn-default btn-sm" ng-click="deleteContact(contact._id)">
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        </button>
-                    </div>
-                </div>
-        </div>-->
     </div>
 </body>
 </html>
