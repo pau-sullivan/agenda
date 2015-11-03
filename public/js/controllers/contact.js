@@ -5,8 +5,8 @@
         .module('ContactController',['gservice'])
         .controller('ContactController',ContactController);
     
-    ContactController.$inject =['$scope','$rootScope', 'Contacts', 'geolocation', 'gservice', 'modalService'];
-    function ContactController($scope,$rootScope, Contacts, geolocation, gservice, modalService) {
+    ContactController.$inject =['$scope','$rootScope', 'Contacts', 'geolocation', 'gservice', 'ModalContact'];
+    function ContactController($scope,$rootScope, Contacts, geolocation, gservice, ModalContact, $uibModalInstance) {
         
         /* jshint validthis: true */
         var vm = this;
@@ -83,20 +83,22 @@
         });
             
         vm.open = function(contact){          
-            var modalOptions = {
-                closeButtonText: 'Cancel',
-                actionButtonText: 'OK',
-                headerText: 'Contacto ' + contact.name,
-                bodyText: 'Last Name' + contact.lastName
-            };
-
-            modalService.showModal({}, modalOptions)
-                .then(function (result) {
-                    alert(result);
-                    }, 
-                    function(){alert('error');}
+            
+            ModalContact.showModal(contact)
+                .then(
+                    function (result) {}, //OK
+                    function(){}         //Cancel
                 );
         };    
+        
+        
+//        vm.ok = function () {
+//            $uibModalInstance.close('Resultado OK');
+//          };
+//
+//        vm.cancel = function () {
+//            $uibModalInstance.dismiss('cancel');
+//          };
     }    
 })();
 
