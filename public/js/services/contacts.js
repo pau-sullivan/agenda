@@ -47,6 +47,7 @@
                     $scope.modal = tempModalOptions;
                     
                     $scope.modal.ok = function (result) {
+                        alert(result);
                         $uibModalInstance.close(result);
                     };
                     $scope.modal.close = function (result) {

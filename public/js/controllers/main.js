@@ -2,11 +2,11 @@
     'use strict';
     
     angular
-        .module('ContactController',['gservice'])
-        .controller('ContactController',ContactController);
+        .module('MainController',['gservice'])
+        .controller('MainController',MainController);
     
-    ContactController.$inject =['$scope','$rootScope', 'Contacts', 'geolocation', 'gservice', 'ModalContact'];
-    function ContactController($scope,$rootScope, Contacts, geolocation, gservice, ModalContact, $uibModalInstance) {
+    MainController.$inject =['$scope','$rootScope', 'Contacts', 'geolocation', 'gservice','$uibModal'];
+    function MainController($scope,$rootScope, Contacts, geolocation, gservice, $uibModal) {
         
         /* jshint validthis: true */
         var vm = this;
@@ -44,23 +44,6 @@
             }
         });
                 
-        vm.createContact = function() {
-            var contactData={
-              name : vm.formData.name,
-              lastName : vm.formData.lastName,
-              location :[vm.formData.longitude, vm.formData.latitude],
-              htmlverified : vm.formData.htmlverified
-            };
-
-            Contacts.create(contactData)
-                .success(function(data){
-                    vm.formData.name = "";
-                    vm.formData.lastName="";
-                    vm.contacts = data;
-                    gservice.refresh(data);
-                });
-        };
-
         vm.deleteContact = function(id) {
             Contacts.delete(id)
                 .success(function(data){
@@ -82,46 +65,44 @@
             }
         });
             
-        vm.open = function(contact){          
-            
-            ModalContact.showModal(contact)
-                .then(
-                    function (result) {}, //OK
-                    function(){}         //Cancel
-                );
-        };    
+
+        vm.open = function () {
+          var modalInstance = $uibModal.open({
+            templateUrl: '/js/partials/modalContact.html',
+            controller: ModalInstanceCtrl
+          });
+        };
         
-        
-//        vm.ok = function () {
-//            $uibModalInstance.close('Resultado OK');
-//          };
+        var ModalInstanceCtrl = function ($scope, $uibModalInstance) {
+        $scope.submit = function() {
+          
+//           var contactData={
+//              name : vm.formData.name,
+//              lastName : vm.formData.lastName,
+//              location :[vm.formData.longitude, vm.formData.latitude],
+//              htmlverified : vm.formData.htmlverified
+//            };
 //
-//        vm.cancel = function () {
-//            $uibModalInstance.dismiss('cancel');
-//          };
+//            Contacts.create(contactData)
+//                .success(function(data){
+//                    vm.formData.name = "";
+//                    vm.formData.lastName="";
+//                    vm.contacts = data;
+//                    gservice.refresh(data);
+//                });
+          
+          
+         alert($scope.addForm.$dirty);
+        };
+
+        $scope.ok = function () {
+          $uibModalInstance.close();
+        };
+
+        $scope.cancel = function () {
+          $uibModalInstance.dismiss('cancel');
+        };
+      };
+
     }    
 })();
-
-//            $scope.open = function (contact) {
-//                var modalInstance = $uibModal.open({
-//                  animation: $scope.animationsEnabled,
-//                  templateUrl: 'js/templates/modalContact.html',//'js/templates/contact.html',
-//                  controller: 'modalContactController',
-//                  size: 'lg',
-//                  resolve: {
-//                    contact: function () {
-//                      return contact;
-//                    }
-//                  }
-//                });
-//                
-//                modalInstance.result.then(
-//                    function () {
-//                        //$scope.selected = selectedItem;
-//                        alert('entro');
-//                    }, 
-//                    function () {
-//                        //$log.info('Modal dismissed at: ' + new Date());
-//                    }
-//                );
-//            };

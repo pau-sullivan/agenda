@@ -1,5 +1,5 @@
 angular
-        .module('agendaApp', ['ContactController', 'contactService','geolocation','gservice','ui.bootstrap'])
+        .module('agendaApp', ['MainController', 'contactService','geolocation','gservice','ui.bootstrap'])
         .run(anchorScroll);
 
 anchorScroll.$inject =['$anchorScroll'];
