@@ -11,8 +11,8 @@
         /* jshint validthis: true */
         var vm = this;
         vm.formData = {};
-        vm.formData.latitude = -34.5987586;
-        vm.formData.longitude = -58.3855415;
+        vm.latitude = -34.5987586;
+        vm.longitude = -58.3855415;
         vm.sortType     = 'name';
         vm.sortReverse  = false;
         vm.searchContact   = '';
@@ -34,13 +34,13 @@
                 var coords = {lat:data.coords.latitude, long:data.coords.longitude};
 
                 // Display coordinates in location textboxes rounded to three decimal points
-                vm.formData.longitude = parseFloat(coords.long).toFixed(3);
-                vm.formData.latitude = parseFloat(coords.lat).toFixed(3);
+                vm.longitude = parseFloat(coords.long).toFixed(3);
+                vm.latitude = parseFloat(coords.lat).toFixed(3);
 
                 // Display message confirming that the coordinates verified.
                 vm.formData.htmlverified = "Yep (Thanks for giving us real data!)";
 
-                gservice.setLocation(vm.formData.latitude, vm.formData.longitude);
+                gservice.setLocation(vm.latitude, vm.longitude);
             }
         });
                 
@@ -58,41 +58,79 @@
             if(!$rootScope.$$phase) {
                 // Run the gservice functions associated with identifying coordinates
                 $scope.$apply(function(){
-                    vm.formData.latitude = parseFloat(gservice.clickLat).toFixed(3);
-                    vm.formData.longitude = parseFloat(gservice.clickLong).toFixed(3);
+                    vm.latitude = parseFloat(gservice.clickLat).toFixed(3);
+                    vm.longitude = parseFloat(gservice.clickLong).toFixed(3);
                     vm.formData.htmlverified = "Nope (Thanks for spamming my map...)";
                 });
             }
         });
             
 
-        vm.open = function () {
+        vm.open = function (contact) {
+            if(contact){
+                vm.formData.id = contact._id;
+                vm.formData.latitude = contact.location[1];
+                vm.formData.longitude = contact.location[0];
+                vm.formData.htmlverified = contact.htmlverified;
+                vm.formData.name = contact.name;
+                vm.formData.lastName = contact.lastName;
+            }
+            else{
+                 vm.formData.name = "";
+                 vm.formData.lastName = "";
+                 vm.formData.latitude = vm.latitude;
+                 vm.formData.longitude = vm.longitude;
+            }
+            
           var modalInstance = $uibModal.open({
             templateUrl: '/js/partials/modalContact.html',
-            controller: ModalInstanceCtrl
+            controller: ModalInstanceCtrl,
+            resolve:{
+                formData:function(){
+                    return vm.formData;
+                }
+            }
           });
         };
         
-        var ModalInstanceCtrl = function ($scope, $uibModalInstance) {
-        $scope.submit = function() {
+        var ModalInstanceCtrl = function ($scope, $uibModalInstance, formData) {
+            
+            $scope.formData = formData;
+            
+            if($scope.formData.id)
+                $scope.formData.action = "Modificar";
+            else
+                $scope.formData.action = "Agregar";
+            
+            $scope.submit = function() {
           
-//           var contactData={
-//              name : vm.formData.name,
-//              lastName : vm.formData.lastName,
-//              location :[vm.formData.longitude, vm.formData.latitude],
-//              htmlverified : vm.formData.htmlverified
-//            };
-//
-//            Contacts.create(contactData)
-//                .success(function(data){
-//                    vm.formData.name = "";
-//                    vm.formData.lastName="";
-//                    vm.contacts = data;
-//                    gservice.refresh(data);
-//                });
-          
-          
-         alert($scope.addForm.$dirty);
+            var contactData={
+               name : vm.formData.name,
+               lastName : vm.formData.lastName,
+               location :[vm.formData.longitude, vm.formData.latitude],
+               htmlverified : vm.formData.htmlverified
+             };
+             
+             if(!$scope.formData.id){
+                Contacts.create(contactData)
+                    .success(function(data){
+                        vm.formData.name = "";
+                        vm.formData.lastName="";
+                        vm.contacts = data;
+                        gservice.refresh(data);
+                    });
+             }
+             else{
+                 Contacts.update($scope.formData.id, contactData)
+                    .success(function(data){
+                        vm.formData.name = "";
+                        vm.formData.lastName="";
+                        vm.contacts = data;
+                        gservice.refresh(data);
+                    });
+             }
+
+          $uibModalInstance.close();
         };
 
         $scope.ok = function () {

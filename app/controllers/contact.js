@@ -2,7 +2,7 @@ var Contact = require('../models/contact');
 
 
 // Create endpoint /api/contacts for POSTS
-exports.postContacts = function(req, res) {
+  exports.postContacts = function(req, res) {
     var contact = new Contact(req.body);
     
       //contact.name = req.body.name;
@@ -41,6 +41,19 @@ exports.postContacts = function(req, res) {
   
   exports.deleteContact= function(req,res){
       Contact.remove({ _id: req.params.contact_id }, function(err) {
+       if (err)
+         res.send(err);
+
+       Contact.find(function(err,contacts){
+          if(err)
+              res.send(err);
+          res.json(contacts);
+      });
+     });
+  };
+  
+  exports.putContact= function(req,res){
+      Contact.update({ _id: req.params.contact_id }, function(err) {
        if (err)
          res.send(err);
 

@@ -10,6 +10,7 @@ module.exports = function(app, router) {
 
     router.route('/contacts/:contact_id')
        .get(contactController.getContact)
+       .put(contactController.putContact)
        .delete(contactController.deleteContact);
 
 

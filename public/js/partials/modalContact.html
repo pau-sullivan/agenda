@@ -1,6 +1,5 @@
 <div class="modal-header">
   <h2 class="panel-title text-center">Contacto <span class="glyphicon glyphicon-map-marker"></span></h2>  
-  <h4>{{modal.contact.name}} {{modal.contact.lastName}}</h4>
 </div>
 <div class="modal-body">
    <form  name ="addForm" novalidate id="frmContact">
@@ -14,11 +13,11 @@
        </div>
         <div class="form-group">
            <label class="sr-only" for="txtLatitude">Lat</label>
-           <input type="text" class="form-control" id="txtLatitude" placeholder="39.500" value="-34.5987586" ng-model="formData.latitude" readonly>
+           <input type="text" class="form-control" id="txtLatitude" ng-model="formData.latitude" readonly>
        </div>
        <div class="form-group">
            <label class="sr-only" for="txtLongitude">Long</label>
-           <input type="text" class="form-control" id="txtLongitude" placeholder="39.500" value="-58.3855415" ng-model="formData.longitude" readonly>
+           <input type="text" class="form-control" id="txtLongitude" ng-model="formData.longitude" readonly>
        </div>
        <div class="form-group">
            <label for="txtVerified">HTML5 Verified Location? <span><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></button></span></label>
@@ -27,6 +26,6 @@
     </form>
 </div>
 <div class="modal-footer">
-  <button type="submit" class="btn btn-danger" ng-disabled="addForm.$invalid" ng-click="submit()">Agregar</button>
+  <button type="submit" class="btn btn-danger" ng-disabled="addForm.$invalid" ng-click="submit()">{{formData.action}}</button>
   <button type="button" class="btn btn-primary" data-ng-click="cancel()">Cerrar</button>
 </div>
