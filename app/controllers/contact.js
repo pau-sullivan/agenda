@@ -53,14 +53,16 @@ var Contact = require('../models/contact');
   };
   
   exports.putContact= function(req,res){
-      Contact.update({ _id: req.params.contact_id }, function(err) {
-       if (err)
-         res.send(err);
-
-       Contact.find(function(err,contacts){
-          if(err)
+      Contact.update({ _id: req.params.contact_id },
+        {name:req.body.name,lastName:req.body.lastName},
+        function(err) {
+            if (err)
               res.send(err);
-          res.json(contacts);
-      });
-     });
+
+            Contact.find(function(err,contacts){
+               if(err)
+                   res.send(err);
+                res.json(contacts);
+            });
+        });
   };

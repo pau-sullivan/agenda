@@ -96,11 +96,10 @@
         var ModalInstanceCtrl = function ($scope, $uibModalInstance, formData) {
             
             $scope.formData = formData;
-            
-            if($scope.formData.id)
-                $scope.formData.action = "Modificar";
-            else
+            if($scope.formData.id == null)
                 $scope.formData.action = "Agregar";
+            else
+                $scope.formData.action = "Modificar";
             
             $scope.submit = function() {
           
