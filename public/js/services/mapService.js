@@ -37,6 +37,7 @@ angular.module('mapService', [])
                     title: "Big Map",
                     icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
                 });
+                
                 marker.setMap(map);
                 markers.push(marker);
                 // For each marker created, add a listener that checks for clicks
@@ -84,11 +85,15 @@ angular.module('mapService', [])
               zoom:12
             };
 
-            map = new google.maps.Map(document.getElementById("map"), mapOptions);
+            var divMap = document.getElementById("map");
+            if(divMap !== null)
+            {
+                map = new google.maps.Map(divMap, mapOptions);
             
-            google.maps.event.addListener(map, 'click', function(e){
-                    setLocation(e.latLng.lat(),e.latLng.lng());
-            });            
+                //google.maps.event.addListener(map, 'click', function(e){
+                //    setLocation(e.latLng.lat(),e.latLng.lng());
+                //});            
+            }
         };
         
         var deleteMarkers= function() {

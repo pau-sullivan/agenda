@@ -24,17 +24,22 @@
     
     <title>App</title>
     <style>
-        html                    { overflow-y:scroll; }        
+        html    { overflow-y:scroll; }    
+        .home   { padding-top: 5px;}
+        .header { padding-left: 10px;}
     </style>
 </head>
 <body ng-controller="CoreController">
-    <div class="container">
-         <div class="header">
-            <ul class="nav nav-pills pull-right">
-                <li class=""><a href="">Mis Lugares</a></li>
-                <li class=""><a href="">Buscar</a></li>
-            </ul>
-            <h4 class="text-muted">Home</h4>
+    <div class="content">
+       <div class="header">
+           <h4 class="text-muted home">Lugares</h4>
+           <nav role="navigation">
+                <ul class="nav nav-pills">
+                    <li  ng-class="{ active: isActive('/#')}"><a href="#/">Mapa</a></li>
+                    <li  ng-class="{ active: isActive('/#list')}"><a href="#list">Lista</a></li>
+                    <li  ng-class="{ active: isActive('/#search')}"><a href="#search">Buscar</a></li>
+                </ul>
+            </nav>
         </div>
         <div ng-view></div>
         </br>

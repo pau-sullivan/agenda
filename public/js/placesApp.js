@@ -1,5 +1,5 @@
 angular
-        .module('placesApp'),['CoreController','contactService,','ngRoute','mapService']
+        .module('placesApp',['ngRoute','ngRoute','CoreController','contactService'])
         .config(function($routeProvider) {
                         $routeProvider
 
@@ -9,11 +9,17 @@ angular
                                 controller  : 'CoreController'
                             })
                             // route for the contact page
-                            .when('/places', {
-                                templateUrl : 'partials/list.html',
+                            .when('/list', {
+                                templateUrl : 'js/partials/placesList.html',
+                                controller  : 'CoreController'
+                            })
+                            .when('/search', {
+                                templateUrl : 'js/partials/searchPlace.html',
                                 controller  : 'CoreController'
                             });
-                    });
+                    })
+        .run(anchorScroll);
+
 anchorScroll.$inject =['$anchorScroll'];
 
  function anchorScroll($anchorScroll) {
