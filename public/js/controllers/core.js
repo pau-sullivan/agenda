@@ -5,8 +5,8 @@
         .module('CoreController',['mapService'])
         .controller('CoreController',CoreController);
     
-    CoreController.$inject =['$scope', 'Contacts', 'mapService'];
-    function CoreController($scope, Contacts,mapService) {
+    CoreController.$inject =['$scope', 'Contacts', 'mapService','$route'];
+    function CoreController($scope, Contacts,mapService,$route) {
         
         /* jshint validthis: true */
         var vm = this;
@@ -16,6 +16,7 @@
 //        vm.sortType     = 'name';
 //        vm.sortReverse  = false;
 //        vm.search   = '';
+        $scope.$route = $route;
         
         Contacts.get()
             .success(function(data) {

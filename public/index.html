@@ -35,9 +35,9 @@
            <h4 class="text-muted home">Lugares</h4>
            <nav role="navigation">
                 <ul class="nav nav-pills">
-                    <li  ng-class="{ active: isActive('/#')}"><a href="#/">Mapa</a></li>
-                    <li  ng-class="{ active: isActive('/#list')}"><a href="#list">Lista</a></li>
-                    <li  ng-class="{ active: isActive('/#search')}"><a href="#search">Buscar</a></li>
+                    <li  ng-class="{ active:  $route.current.activetab=='#'}"><a href="#/">Mapa</a></li>
+                    <li  ng-class="{ active:  $route.current.activetab=='list'}"><a href="#list">Lista</a></li>
+                    <li  ng-class="{ active:  $route.current.activetab =='search'}"><a href="#search">Buscar</a></li>
                 </ul>
             </nav>
         </div>

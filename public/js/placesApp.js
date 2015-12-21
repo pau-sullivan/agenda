@@ -6,16 +6,20 @@ angular
                             // route for the home page
                             .when('/', {
                                 templateUrl : 'js/partials/map.html',
-                                controller  : 'CoreController'
+                                controller  : 'CoreController',
+                                activetab :'#'
                             })
                             // route for the contact page
                             .when('/list', {
                                 templateUrl : 'js/partials/placesList.html',
-                                controller  : 'CoreController'
+                                controller  : 'CoreController',
+                                activetab :'list'
                             })
                             .when('/search', {
                                 templateUrl : 'js/partials/searchPlace.html',
-                                controller  : 'CoreController'
+                                controller  : 'CoreController',
+                                activetab :'search'
+                                
                             });
                     })
         .run(anchorScroll);
